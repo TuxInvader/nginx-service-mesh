@@ -50,13 +50,12 @@ metadata:
     app.kubernetes.io/part-of: nginx-service-mesh
   annotations:
     "helm.sh/resource-policy": keep
-allowHostDirVolumePlugin: false
+allowHostDirVolumePlugin: true
 allowHostIPC: false
 allowHostPID: true
 allowHostNetwork: false
 allowHostPorts: false
 allowPrivilegedContainer: true
-allowPrivilegeEscalation: true
 seLinuxContext:
   type: MustRunAs
 readOnlyRootFilesystem: false
@@ -65,7 +64,8 @@ runAsUser:
 fsGroup:
   type: MustRunAs
 volumes:
-{{- if eq .Values.hostPath "direct" }} 
+- projected
+{{- if eq .Values.hostPath "direct" }}
 - hostPath
 {{- else }}
 - persistentVolumeClaim
