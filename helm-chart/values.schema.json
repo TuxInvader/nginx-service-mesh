@@ -369,6 +369,11 @@
       "type": "string",
       "enum": ["kubernetes", "openshift"]
     },
+    "hostPath": {
+      "description": "Should the CSI driver mount hostpaths directly or via a PersistentVolume[Claim]?",
+      "type": "string",
+      "enum": [ "direct", "pvc" ]
+    },
     "enableUDP": {
       "description": "Enable UDP traffic proxying (beta). Linux kernel 4.18 or greater is required.",
       "type": "boolean"
