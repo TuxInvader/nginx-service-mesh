@@ -37,10 +37,6 @@ accessControlMode: "allow"
 # Valid values: kubernetes, openshift
 environment: "kubernetes"
 
-# Should the CSI driver mount hostpaths directly or via a PersistentVolume[Claim].
-# Valid values: direct, pvc
-hostPath: "direct"
-
 # Enable UDP traffic proxying (beta). Linux kernel 4.18 or greater is required.
 enableUDP: false
 

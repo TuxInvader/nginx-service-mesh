@@ -65,11 +65,7 @@ fsGroup:
   type: MustRunAs
 volumes:
 - projected
-{{- if eq .Values.hostPath "direct" }}
 - hostPath
-{{- else }}
-- persistentVolumeClaim
-{{- end }}
 ---
 
 apiVersion: apps/v1
@@ -164,7 +160,6 @@ spec:
       # directory on the node that was mounted into workload containers by
       # the CSI driver belongs to the old pod instance and is no longer
       # valid).
-      {{- if eq .Values.hostPath "direct" }}
       - name: spire-agent-socket
         hostPath:
           path: /run/spire/sockets
@@ -185,24 +180,6 @@ spec:
         hostPath:
           path: /var/lib/kubelet/plugins_registry
           type: Directory
-      {{- else }}
-      - name: spire-agent-socket
-        persistentVolumeClaim:
-          claimName: nsm-spire-agent-socket
-      # This volume is where the socket for kubelet->driver communication lives
-      - name: spiffe-csi-socket-dir
-        persistentVolumeClaim:
-          claimName: nsm-spiffe-csi-socket-dir
-      # This volume is where the SPIFFE CSI driver mounts volumes
-      - name: mountpoint-dir
-        persistentVolumeClaim:
-          claimName: nsm-mountpoint-dir
-      # This volume is where the node-driver-registrar registers the plugin
-      # with kubelet
-      - name: kubelet-plugin-registration-dir
-        persistentVolumeClaim:
-          claimName: nsm-kubelet-plugin-registration-dir
-      {{- end }}
 ---
 apiVersion: storage.k8s.io/v1
 kind: CSIDriver
